@@ -1,0 +1,120 @@
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body {
+    position: relative;
+    background-color: #f2f2f2;
+    min-height: 100%;
+    height: auto;
+    font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #009578;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #6dcdb1;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.jumbotron {
+    margin-top: 32px;
+    margin-bottom: 32px;
+    border: #333 solid 2px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 1px #333;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.fixed-table-container {
+    background-color: white;
+    border-radius: 20px;
+    /* border: 2px red solid; */
+}
+
+#table {
+    border-collapse: separate;
+    border-radius: 20px;
+    border-spacing: 0;
+    border: 1px solid black;
+}
+
+#table tr:first-child th {
+    border-bottom: 1px solid black;
+}
+
+#table tr:first-child td {
+    border-top: 1px solid black;
+}
+
+#table th:first-child {
+    border-top-left-radius: 20px;
+}
+
+#table th:last-child {
+    border-top-right-radius: 20px;
+}
+
+#table tr:last-child td:first-child {
+    border-bottom-left-radius: 20px;
+}
+
+#table tr:last-child td:last-child {
+    border-bottom-right-radius: 20px;
+}
+
+a.update {
+    color: #ffc107;
+}
+
+a.update:hover {
+    color: #dfbc00;
+}
+
+a.remove {
+    color: #dc3545;
+}
+
+a.remove:hover {
+    color: #83212b;
+}
+/*footer {*/
+/*    position: absolute;*/
+/*    right: 0;*/
+/*    left: 0;*/
+/*}*/
+
+#toolbar {
+    position: absolute;
+    top: 10px;
+}
+
+.fixed-table-body {
+    height: auto !important;
+}
+
+#toast-container > div {
+    opacity: 1;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    filter: alpha(opacity=100);
+}

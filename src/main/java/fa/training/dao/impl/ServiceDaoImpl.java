@@ -55,12 +55,18 @@ public class ServiceDaoImpl implements ServiceDao {
         try (Session session = HibernateConfig.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            Service service = session.get(Service.class, id);
-            if (service != null) {
-                session.delete(service);
-            } else {
-                throw new Exception("No item found in db.");
-            }
+//            Service service = session.get(Service.class, id);
+//            if (service != null) {
+//                session.delete(service);
+//            } else {
+//                throw new Exception("No item found in db.");
+//            }
+
+            String deleteServiceUsage = "delete from SUDUNGDICHVU where MaDV = :id";
+            session.createNativeQuery(deleteServiceUsage).setParameter("id", id).executeUpdate();
+
+            String deleteDevice = "delete from DICHVU where MaDV = :id";
+            session.createNativeQuery(deleteDevice).setParameter("id", id).executeUpdate();
 
             transaction.commit();
 

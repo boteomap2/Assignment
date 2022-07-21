@@ -51,12 +51,17 @@ public class DeviceDaoImpl implements DeviceDao {
         try (Session session = HibernateConfig.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            Device device = session.get(Device.class, id);
-            if (device != null) {
-                session.delete(device);
-            } else {
-                throw new Exception("No item found in db.");
-            }
+//            Device device = session.get(Device.class, id);
+//            if (device != null) {
+//                session.delete(device);
+//            } else {
+//                throw new Exception("No item found in db.");
+//            }
+            String deleteDeviceUsage = "delete from SUDUNGMAY where MaMay = :id";
+            session.createNativeQuery(deleteDeviceUsage).setParameter("id", id).executeUpdate();
+
+            String deleteDevice = "delete from MAY where MaMay = :id";
+            session.createNativeQuery(deleteDevice).setParameter("id", id).executeUpdate();
 
             transaction.commit();
 

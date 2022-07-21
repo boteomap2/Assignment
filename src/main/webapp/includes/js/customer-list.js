@@ -1,3 +1,21 @@
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "4000",
+  "extendedTimeOut": "0",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
 let $table = $("#table");
 
 $(function () {
@@ -76,28 +94,32 @@ window.operateEvents = {
 
 // Update device
 $("#updateModalBtn").on("click", function () {
-  let updatedRow = {
-    customerId: $("#updateCustomerId").val(),
-    name: $("#updateCustomerName").val(),
-    address: $("#updateCustomerAddress").val(),
-    phone: $("#updateCustomerPhone").val(),
-    email: $("#updateCustomerEmail").val(),
-  };
-  $.ajax({
-    url: "list/update",
-    type: "POST",
-    data: updatedRow,
-  }).done(function(result) {
-    if (result) {
-      $("#updateModal").modal("hide");
-      $table.bootstrapTable("updateRow", {
-        index: myIndex,
-        row: updatedRow,
-      });
-    } else {
-      alert("Something Happened on Our End");
-    }
-  });
+  if ($("#updateModalForm").valid()) {
+    let updatedRow = {
+      customerId: $("#updateCustomerId").val(),
+      name: $("#updateCustomerName").val(),
+      address: $("#updateCustomerAddress").val(),
+      phone: $("#updateCustomerPhone").val(),
+      email: $("#updateCustomerEmail").val(),
+    };
+    $.ajax({
+      url: "list/update",
+      type: "POST",
+      data: updatedRow,
+    }).done(function(result) {
+      if (result) {
+        $("#updateModal").modal("hide");
+        $table.bootstrapTable("updateRow", {
+          index: myIndex,
+          row: updatedRow,
+        });
+        toastr.success("Update Customer Successfully")
+      } else {
+        toastr.error("Something Happened on Our End");
+      }
+    });
+  }
+
 });
 
 
@@ -114,8 +136,9 @@ $("#deleteModalBtn").on("click", function () {
         values: [myIndex],
       });
       $("#deleteModal").modal("hide");
+      toastr.success("Delete Customer Successfully")
     } else {
-      alert("Something Happened on Our End");
+      toastr.error("Something Happened on Our End");
     }
   });
 });
@@ -127,24 +150,28 @@ $("#newBtn").on("click", function () {
 });
 
 $("#addModalBtn").on("click", function () {
-  let newRow = {
-    name: $("#addCustomerName").val(),
-    address: $("#addCustomerAddress").val(),
-    phone: $("#addCustomerPhone").val(),
-    email: $("#addCustomerEmail").val(),
-  };
-  $.ajax({
-    url: "list/add",
-    type: "POST",
-    data: newRow,
-  }).done(function(idCallback) {
-    if (idCallback) {
-      newRow.customerId = idCallback;
-      $table.bootstrapTable("append", newRow);
-      $("#addModal").modal("hide");
-      $("#addModalForm").trigger("reset");
-    } else {
-      alert("Something Happened on Our End");
-    }
-  });
+  if ($("#addModalForm").valid()) {
+    let newRow = {
+      name: $("#addCustomerName").val(),
+      address: $("#addCustomerAddress").val(),
+      phone: $("#addCustomerPhone").val(),
+      email: $("#addCustomerEmail").val(),
+    };
+    $.ajax({
+      url: "list/add",
+      type: "POST",
+      data: newRow,
+    }).done(function(idCallback) {
+      if (idCallback) {
+        newRow.customerId = idCallback;
+        $table.bootstrapTable("append", newRow);
+        $("#addModal").modal("hide");
+        $("#addModalForm").trigger("reset");
+        toastr.success("Create New Customer Successfully")
+      } else {
+        toastr.error("Something Happened on Our End");
+      }
+    });
+  }
+
 });

@@ -14,6 +14,7 @@
                 rel="stylesheet"
                 href="<c:url value="/includes/css/bootstrap-table/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css" />"
         />
+        <link rel="stylesheet" href="<c:url value="/includes/css/toastr/toastr.min.css" />">
         <link rel="stylesheet" href="<c:url value="/includes/css/style.css" />">
     </head>
     <body class="d-flex flex-column">
@@ -22,6 +23,8 @@
         <script src="<c:url value="/includes/js/bootstrap-table/bootstrap-table.min.js" />"></script>
         <script src="<c:url value="/includes/js/bootstrap-table/locale/bootstrap-table-locale-all.min.js" />"></script>
         <script src="<c:url value="/includes/js/bootstrap-table/extensions/page-jump-to/bootstrap-table-page-jump-to.min.js" />"></script>
+        <script src="<c:url value="/includes/js/toastr/toastr.min.js" />"></script>
+        <script src="<c:url value="/includes/js/jquery-validate.js" />"></script>
 
         <%@ include file="../includes/header.jsp"%>
         <div class="container flex-grow-1">
@@ -215,6 +218,70 @@
     </body>
     <script>
         let data = ${pageContext.request.getAttribute("listDeviceJson")};
+        $("#updateModalForm").validate({
+          rules: {
+            updateDevicePosition: {
+              required: true,
+            },
+            updateDeviceStatus: {
+              required: true,
+            },
+          },
+          messages: {
+            updateDevicePosition: {
+              required: "Device position is required",
+            },
+            updateDeviceStatus: {
+              required: "Device status is required",
+            },
+          },
+          errorPlacement: function (error, element) {
+            // for check box and radio
+            if (element.attr("name") == "checkme") {
+              error.appendTo("#error-mess");
+            } else {
+              error.insertAfter(element);
+            }
+          },
+          onfocusout: function (element) {
+            // "eager" validation
+            this.element(element);
+          },
+          success: "valid",
+        });
+
+        $("#addModalForm").validate({
+          rules: {
+            addDevicePosition: {
+              required: true,
+            },
+            addDeviceStatus: {
+              required: true,
+            },
+          },
+          messages: {
+            addDevicePosition: {
+              required: "Device position is required",
+            },
+            addDeviceStatus: {
+              required: "Device status is required",
+            },
+          },
+          errorPlacement: function (error, element) {
+            // for check box and radio
+            if (element.attr("name") == "checkme") {
+              error.appendTo("#error-mess");
+            } else {
+              error.insertAfter(element);
+            }
+          },
+          onfocusout: function (element) {
+            // "eager" validation
+            this.element(element);
+          },
+          success: "valid",
+        });
     </script>
+    <script src="<c:url value="/includes/js/validate-method.js" />"></script>
     <script src="<c:url value="/includes/js/device-list.js" />"></script>
 </html>

@@ -1,3 +1,21 @@
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "4000",
+  "extendedTimeOut": "0",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
 let $table = $("#table");
 
 $(function () {
@@ -70,27 +88,30 @@ window.operateEvents = {
 
 // Update device
 $("#updateModalBtn").on("click", function () {
-  let updatedRow = {
-    serviceId: $("#updateServiceId").val(),
-    name: $("#updateServiceName").val(),
-    unit: $("#updateServiceUnit").val(),
-    price: $("#updateServicePrice").val(),
-  };
-  $.ajax({
-    url: "list/update",
-    type: "POST",
-    data: updatedRow,
-  }).done(function(result) {
-    if (result) {
-      $("#updateModal").modal("hide");
-      $table.bootstrapTable("updateRow", {
-        index: myIndex,
-        row: updatedRow,
-      });
-    } else {
-      alert("Something Happened on Our End");
-    }
-  });
+  if ($("#updateModalForm").valid()) {
+    let updatedRow = {
+      serviceId: $("#updateServiceId").val(),
+      name: $("#updateServiceName").val(),
+      unit: $("#updateServiceUnit").val(),
+      price: $("#updateServicePrice").val(),
+    };
+    $.ajax({
+      url: "list/update",
+      type: "POST",
+      data: updatedRow,
+    }).done(function(result) {
+      if (result) {
+        $("#updateModal").modal("hide");
+        $table.bootstrapTable("updateRow", {
+          index: myIndex,
+          row: updatedRow,
+        });
+        toastr.success("Update Service Successfully")
+      } else {
+        toastr.error("Something Happened on Our End");
+      }
+    });
+  }
 });
 
 
@@ -107,8 +128,9 @@ $("#deleteModalBtn").on("click", function () {
         values: [myIndex],
       });
       $("#deleteModal").modal("hide");
+      toastr.success("Delete Service Successfully")
     } else {
-      alert("Something Happened on Our End");
+      toastr.error("Something Happened on Our End");
     }
   });
 });
@@ -120,23 +142,26 @@ $("#newBtn").on("click", function () {
 });
 
 $("#addModalBtn").on("click", function () {
-  let newRow = {
-    name: $("#addServiceName").val(),
-    unit: $("#addServiceUnit").val(),
-    price: $("#addServicePrice").val(),
-  };
-  $.ajax({
-    url: "list/add",
-    type: "POST",
-    data: newRow,
-  }).done(function(idCallback) {
-    if (idCallback) {
-      newRow.serviceId = idCallback;
-      $table.bootstrapTable("append", newRow);
-      $("#addModal").modal("hide");
-      $("#addModalForm").trigger("reset");
-    } else {
-      alert("Something Happened on Our End");
-    }
-  });
+  if ($("#addModalForm").valid()) {
+    let newRow = {
+      name: $("#addServiceName").val(),
+      unit: $("#addServiceUnit").val(),
+      price: $("#addServicePrice").val(),
+    };
+    $.ajax({
+      url: "list/add",
+      type: "POST",
+      data: newRow,
+    }).done(function(idCallback) {
+      if (idCallback) {
+        newRow.serviceId = idCallback;
+        $table.bootstrapTable("append", newRow);
+        $("#addModal").modal("hide");
+        $("#addModalForm").trigger("reset");
+        toastr.success("Create New Service Successfully")
+      } else {
+        toastr.error("Something Happened on Our End");
+      }
+    });
+  }
 });

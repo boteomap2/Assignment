@@ -17,6 +17,7 @@ import fa.training.entity.Customer;
 import fa.training.entity.Device;
 import fa.training.entity.DeviceUsage;
 import fa.training.entity.Service;
+import fa.training.entity.ServiceUsage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -134,6 +135,23 @@ public class RegisterServlet extends HttpServlet {
 
     private void addServiceUsage(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
+        String customerId = request.getParameter("customerId");
+        String serviceId = request.getParameter("serviceId");
+        LocalDate dateUsage = LocalDate.parse(request.getParameter("dateUsage"));
+        LocalTime timeUsage = LocalTime.parse(request.getParameter("timeUsage"));
+        int amount = Integer.parseInt(request.getParameter("amount"));
 
+        Customer customer = listCustomer.stream().filter(c -> c.getCustomerId().equals(customerId)).findFirst().orElse(null);
+        Service service = listService.stream().filter(s -> s.getServiceId().equals(serviceId)).findFirst().orElse(null);
+
+        if (service == null) return;
+        if (customer == null) return;
+
+        ServiceUsage serviceUsage = new ServiceUsage(customer, service, dateUsage, timeUsage, amount);
+        boolean result = serviceUsageDao.saveServiceUsage(serviceUsage);
+
+        if (result) {
+            response.getWriter().write("ok");
+        }
     }
 }

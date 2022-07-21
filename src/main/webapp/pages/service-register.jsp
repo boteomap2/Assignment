@@ -19,91 +19,134 @@
         <link rel="stylesheet" href="<c:url value="/includes/css/style.css" />">
     </head>
     <body class="d-flex flex-column">
-    <script src="<c:url value="/includes/js/jquery.min.js" />"></script>
-    <script src="<c:url value="/includes/js/bootstrap.bundle.min.js" />"></script>
-    <script src="<c:url value="/includes/js/bootstrap-table/bootstrap-table.min.js" />"></script>
-    <script src="<c:url value="/includes/js/bootstrap-table/locale/bootstrap-table-locale-all.min.js" />"></script>
-    <script src="<c:url value="/includes/js/bootstrap-table/extensions/page-jump-to/bootstrap-table-page-jump-to.min.js" />"></script>
-    <script src="<c:url value="/includes/js/toastr/toastr.min.js" />"></script>
-    <%@ include file="../includes/header.jsp" %>
-    
-    <div class="container flex-grow-1">
-        <div class="row justify-content-center">
-            <div class="jumbotron w-75">
-                <div class="col-12">
-                    <h2 class="text-center">Device Register</h2>
+        <script src="<c:url value="/includes/js/jquery.min.js" />"></script>
+        <script src="<c:url value="/includes/js/bootstrap.bundle.min.js" />"></script>
+        <script src="<c:url value="/includes/js/bootstrap-table/bootstrap-table.min.js" />"></script>
+        <script src="<c:url value="/includes/js/bootstrap-table/locale/bootstrap-table-locale-all.min.js" />"></script>
+        <script src="<c:url value="/includes/js/bootstrap-table/extensions/page-jump-to/bootstrap-table-page-jump-to.min.js" />"></script>
+        <script src="<c:url value="/includes/js/toastr/toastr.min.js" />"></script>
+        <script src="<c:url value="/includes/js/jquery-validate.js" />"></script>
+
+        <%@ include file="../includes/header.jsp" %>
+        
+        <div class="container flex-grow-1">
+            <div class="row justify-content-center">
+                <div class="jumbotron w-75">
+                    <div class="col-12">
+                        <h2 class="text-center">Service Register</h2>
+                    </div>
+                    <form id="serviceRegisterForm">
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="customerId">Customer</label>
+                                <select class="form-control" name="customerId" id="customerId">
+                                    <c:forEach items="${pageContext.request.getAttribute('listCustomer')}" var="customer" >
+                                        <option value="${customer.customerId}">${customer.customerId} - ${customer.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="serviceId">Service</label>
+                                <select class="form-control" name="serviceId" id="serviceId">
+                                    <c:forEach items="${pageContext.request.getAttribute('listService')}" var="service" >
+                                        <option value="${service.serviceId}">${service.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="dateUsage">Date</label>
+                                <input
+                                        type="date"
+                                        name="dateUsage"
+                                        id="dateUsage"
+                                        class="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="timeUsage">Time</label>
+                                <input
+                                        type="time"
+                                        name="timeUsage"
+                                        id="timeUsage"
+                                        class="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <input
+                                        type="number"
+                                        name="amount"
+                                        id="amount"
+                                        class="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col d-flex justify-content-end">
+                            <div class="form-group">
+                                <button id="submitBtn" type="button" class="btn btn-primary btn-md">Register</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <form id="deviceRegisterForm">
-                    <div class="w-100"></div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="customerId">Customer</label>
-                            <select class="form-control" name="customerId" id="customerId">
-                                <c:forEach items="${pageContext.request.getAttribute('listCustomer')}" var="customer" >
-                                    <option value="${customer.customerId}">${customer.customerId} - ${customer.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="w-100"></div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="deviceId">Device (Only in-active)</label>
-                            <select class="form-control" name="deviceId" id="deviceId">
-                                <c:forEach items="${pageContext.request.getAttribute('listDeviceInactive')}" var="device" >
-                                    <option value="${device.deviceId}">Device ${device.deviceId}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="w-100"></div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="startDateUsage">Start Date</label>
-                            <input
-                                    type="date"
-                                    name="startDateUsage"
-                                    id="startDateUsage"
-                                    class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="w-100"></div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="startTimeUsage">Start Time</label>
-                            <input
-                                    type="time"
-                                    name="startTimeUsage"
-                                    id="startTimeUsage"
-                                    class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="w-100"></div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="timeUsage">Duration</label>
-                            <input
-                                    type="number"
-                                    name="timeUsage"
-                                    id="timeUsage"
-                                    class="form-control"
-                            />
-                        </div>
-                    </div>
-                    <div class="w-100"></div>
-                    <div class="col d-flex justify-content-end">
-                        <div class="form-group">
-                            <button id="submitBtn" type="button" class="btn btn-primary btn-md">Register</button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
 
-    <%@ include file="../includes/footer.jsp" %>
+        <%@ include file="../includes/footer.jsp" %>
     </body>
-    <script src="<c:url value="/includes/js/customer-register.js" />"></script>
+    <script>
+      $("#serviceRegisterForm").validate({
+        rules: {
+          dateUsage: {
+            required: true,
+          },
+          timeUsage: {
+            required: true,
+          },
+          amount: {
+            required: true,
+            isValidInteger: true,
+          },
+        },
+        messages: {
+          dateUsage: {
+            required: "Date usage is required",
+          },
+          timeUsage: {
+            required: "Time usage is required",
+          },
+          amount: {
+            required: "Amount is required",
+          },
+        },
+        errorPlacement: function (error, element) {
+          // for check box and radio
+          if (element.attr("name") == "checkme") {
+            error.appendTo("#error-mess");
+          } else {
+            error.insertAfter(element);
+          }
+        },
+        onfocusout: function (element) {
+          // "eager" validation
+          this.element(element);
+        },
+        success: "valid",
+      });
+    </script>
+    <script src="<c:url value="/includes/js/validate-method.js" />"></script>
+    <script src="<c:url value="/includes/js/service-register.js" />"></script>
 </html>

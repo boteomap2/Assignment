@@ -55,12 +55,28 @@ public class CustomerDaoImpl implements CustomerDao {
         try (Session session = HibernateConfig.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            Customer customer = session.get(Customer.class, id);
-            if (customer != null) {
-                session.delete(customer);
-            } else {
-                throw new Exception("No item found in db.");
-            }
+//            Customer customer = session.get(Customer.class, id);
+//            if (customer != null) {
+//                String deleteDevice = "delete from DeviceUsage du where du.deviceUsagePk.customerId = :id";
+//                session.createQuery(deleteDevice).setParameter("id", id).executeUpdate();
+//                String deleteService = "delete from ServiceUsage su where su.serviceUsagePk.customerId = :id";
+//                session.createQuery(deleteService).setParameter("id", id).executeUpdate();
+//                session.delete(customer);
+//            } else {
+//                throw new Exception("No item found in db.");
+//            }
+
+            String updateDeviceStatus = "update MAY set TrangThai = 'inactive' from MAY m join SUDUNGMAY sdm on m.MaMay = sdm.MaMay where sdm.MaKH = :id";
+            session.createNativeQuery(updateDeviceStatus).setParameter("id", id).executeUpdate();
+
+            String deleteDevice = "delete from SUDUNGMAY where MaKH = :id";
+            session.createNativeQuery(deleteDevice).setParameter("id", id).executeUpdate();
+
+            String deleteService = "delete from SUDUNGDICHVU where MaKH = :id";
+            session.createNativeQuery(deleteService).setParameter("id", id).executeUpdate();
+
+            String deleteCustomer = "delete from KHACHHANG where MaKH = :id";
+            session.createNativeQuery(deleteCustomer).setParameter("id", id).executeUpdate();
 
             transaction.commit();
 

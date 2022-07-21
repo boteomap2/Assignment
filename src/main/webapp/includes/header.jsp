@@ -42,7 +42,9 @@
                         </div>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-outline-success">Thống kê</button>
+                <button type="button" class="btn btn-outline-success">
+                    <a href="${pageContext.request.contextPath}/statistic">Thống kê</a>
+                </button>
             </div>
         </div>
     </nav>

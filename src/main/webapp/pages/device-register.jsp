@@ -25,6 +25,8 @@
     <script src="<c:url value="/includes/js/bootstrap-table/locale/bootstrap-table-locale-all.min.js" />"></script>
     <script src="<c:url value="/includes/js/bootstrap-table/extensions/page-jump-to/bootstrap-table-page-jump-to.min.js" />"></script>
     <script src="<c:url value="/includes/js/toastr/toastr.min.js" />"></script>
+    <script src="<c:url value="/includes/js/jquery-validate.js" />"></script>
+
     <%@ include file="../includes/header.jsp" %>
 
     <div class="container flex-grow-1">
@@ -105,5 +107,46 @@
 
     <%@ include file="../includes/footer.jsp" %>
     </body>
-    <script src="<c:url value="/includes/js/customer-register.js" />"></script>
+    <script>
+      $("#deviceRegisterForm").validate({
+        rules: {
+          startDateUsage: {
+            required: true,
+          },
+          startTimeUsage: {
+            required: true,
+          },
+          timeUsage: {
+            required: true,
+            isValidInteger: true,
+          },
+        },
+        messages: {
+          startDateUsage: {
+            required: "Start date usage is required",
+          },
+          startTimeUsage: {
+            required: "Start time usage is required",
+          },
+          timeUsage: {
+            required: "Duration is required",
+          },
+        },
+        errorPlacement: function (error, element) {
+          // for check box and radio
+          if (element.attr("name") == "checkme") {
+            error.appendTo("#error-mess");
+          } else {
+            error.insertAfter(element);
+          }
+        },
+        onfocusout: function (element) {
+          // "eager" validation
+          this.element(element);
+        },
+        success: "valid",
+      });
+    </script>
+    <script src="<c:url value="/includes/js/validate-method.js" />"></script>
+    <script src="<c:url value="/includes/js/device-register.js" />"></script>
 </html>

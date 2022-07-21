@@ -71,13 +71,14 @@ public class HibernateConfig {
             // Setting to perform SchemaManagementTool actions automatically as part of the SessionFactory lifecycle.
             hibernateProperties.put(Environment.HBM2DDL_AUTO, "update");
             // Minimum size of C3P0 connection pool
-            hibernateProperties.put(Environment.C3P0_MIN_SIZE, "5");
+            hibernateProperties.put(Environment.C3P0_MIN_SIZE, "1");
             // Maximum size of C3P0 connection pool
-            hibernateProperties.put(Environment.C3P0_MAX_SIZE, "20");
+            hibernateProperties.put(Environment.C3P0_MAX_SIZE, "10");
             // Number of connections acquired when pool is exhausted
-            hibernateProperties.put(Environment.C3P0_ACQUIRE_INCREMENT, "5");
+            hibernateProperties.put(Environment.C3P0_ACQUIRE_INCREMENT, "2");
             // Maximum idle time for C3P0 connection pool
             hibernateProperties.put(Environment.C3P0_TIMEOUT, "1800");
+            hibernateProperties.put("hibernate.c3p0.statementCacheNumDeferredCloseThreads", 1);
 
 
             hibernateConfiguration.setProperties(hibernateProperties);
